@@ -1,0 +1,23 @@
+{
+  "name": "pfn",
+  "version": "1.0.0",
+  "description": "Provably Fair",
+  "main": "./pfn.js",
+  "scripts": {
+    "test": "node ./pfn-test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/livegamesio/pfn"
+  },
+  "keywords": [
+    "pfn",
+    "provably",
+    "fair"
+  ],
+  "author": "livegames-tech",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "crypto": "^1.0.1"
+  }
+}
