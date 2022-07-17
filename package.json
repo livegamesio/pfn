@@ -1,5 +1,5 @@
 {
-  "name": "pfn",
+  "name": "lgio-pfn",
   "version": "1.0.0",
   "description": "Provably Fair",
   "main": "./pfn.js",
