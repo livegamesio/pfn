@@ -76,6 +76,17 @@ class ProvablyFairNumbers {
   }
 
   //
+  weightedRandom (spec) {
+    const t=[]
+    for (let i in spec) {
+      for (let j=0; j<spec[i]*10; j++) {
+        t.push(i)
+      }
+    }
+    return t[this.randomInt(0, t.length - 1)]
+  }
+
+  //
 }
 
 module.exports = { ProvablyFairNumbers }
