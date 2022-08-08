@@ -1,7 +1,9 @@
 {
-  "name": "lgio-pfn",
-  "version": "1.0.0",
-  "description": "Provably Fair",
+  "name": "pfn",
+  "version": "1.0.1",
+  "description": "Provably Fair Numbers",
+  "author": "livegames",
+  "license": "Apache-2.0",
   "main": "./pfn.js",
   "scripts": {
     "test": "node ./pfn-test.js"
@@ -11,10 +13,40 @@
     "url": "github.com/livegamesio/pfn"
   },
   "keywords": [
+    "livegames",
     "pfn",
     "provably",
-    "fair"
+    "fair",
+    "crng"
   ],
-  "author": "livegames",
-  "license": "Apache-2.0"
+  "devDependencies": {
+		"standard": "16.0.4"
+	},
+	"standard": {
+		"globals": [
+			"__function",
+			"__line",
+			"__stack",
+			"constants",
+			"expect",
+			"describe",
+			"before",
+			"beforeEach",
+			"beforeAll",
+			"after",
+			"afterEach",
+			"afterAll",
+			"browser",
+			"test",
+			"by",
+			"it"
+		],
+		"rules": {
+			"camelcase": 0,
+			"object-curly-spacing": [
+				"error",
+				"never"
+			]
+		}
+	}
 }

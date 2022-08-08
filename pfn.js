@@ -12,7 +12,7 @@ class ProvablyFairNumbers {
     this.serverSeed = serverSeed || this.generateRandomHex(64)
     this.serverHash = this.generateServerSeedHash()
     //
-    if (clientSeed) this.setClientSeed(clientSeed)
+    if (clientSeed || clientSeed === 0) this.setClientSeed(String(clientSeed))
     //
     this.nonce = 0
   }
@@ -34,7 +34,7 @@ class ProvablyFairNumbers {
 
   //
   random () {
-    if (!this.clientSeed) this.clientSeed = this.setClientSeed(this.generateRandomHex(64))
+    if (!this.clientSeed) this.setClientSeed(this.generateRandomHex(64))
     const s = this.clientSeed + '-' + this.nonce
     const h = crypto.createHmac('sha256', this.serverSeed).update(s).digest('hex')
     return parseInt(h, 16) / Math.pow(2, 256)
@@ -77,9 +77,9 @@ class ProvablyFairNumbers {
 
   //
   weightedRandom (spec) {
-    const t=[]
-    for (let i in spec) {
-      for (let j=0; j<spec[i]*10; j++) {
+    const t = []
+    for (const i in spec) {
+      for (let j = 0; j < spec[i] * 10; j++) {
         t.push(i)
       }
     }
