@@ -22,6 +22,10 @@ for (let index = 0; index < count; index++) {
   line.push(r.u.join(' '))
 
   //
-  saveToFile && fileStream.write('\n' + line.join(' '))
+  const lineText = '\n' + line.join(' ')
+
+  if (saveToFile) fileStream.write(lineText)
+  else console.log(lineText)
+
   console.timeEnd('pfn-' + index)
 }
