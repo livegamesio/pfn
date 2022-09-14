@@ -42,7 +42,15 @@ class ProvablyFairNumbers {
 
   //
   randomInt (min = 0, max = 100) {
-    return Math.floor((this.random() * (max - min + 1)) + min)
+    const range = (max - min + 1)
+    const maxRange = Math.floor(2**32 / range) * range
+    let c = 0
+    do {
+        if (c) this.nonce++
+        var x = Math.floor(this.random() * 2**32)
+        c++
+    } while (x >= maxRange)
+    return (x % range) + min
   }
 
   //
