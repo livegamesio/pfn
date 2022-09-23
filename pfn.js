@@ -23,8 +23,8 @@ class ProvablyFairNumbers {
   }
 
   //
-  generateRandomHex (length) {
-    return crypto.randomBytes(Date.now() / 10000).toString('hex').slice(0, length)
+  generateRandomHex (length = 16) {
+    return crypto.randomBytes(length).toString('hex').slice(0, length)
   }
 
   //
