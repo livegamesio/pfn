@@ -33,11 +33,16 @@ class ProvablyFairNumbers {
   }
 
   //
-  random () {
+  randomLong () {
     if (!this.clientSeed) this.setClientSeed(this.generateRandomHex(64))
     const s = this.clientSeed + '-' + this.nonce
     const h = crypto.createHmac('sha256', this.serverSeed).update(s).digest('hex')
-    return parseInt(h, 16) / Math.pow(2, 256)
+    return parseInt(h, 16)
+  }
+
+  //
+  random () {
+    return this.randomLong() / Math.pow(2, 256)
   }
 
   //
@@ -52,6 +57,11 @@ class ProvablyFairNumbers {
         c++
     } while (i >= maxRange)
     return (i % range) + min
+  }
+
+  //
+  randomFloat (min = 0, max = 100, precision = 2) {
+    return parseFloat((Math.round(this.random() * 10**precision) / 10**precision * (max - min) + min).toFixed(precision))
   }
 
   //
@@ -93,6 +103,14 @@ class ProvablyFairNumbers {
       }
     }
     return t[this.randomInt(0, t.length - 1)]
+  }
+
+  //
+  crash (houseEdge = 1, max = 20000) {
+    let X = this.random()
+    X = (100 - houseEdge) / (1 - X)
+    //
+    return Math.min(Math.max(1, Math.floor(X) / 100), max)
   }
 
   //
