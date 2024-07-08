@@ -1,12 +1,12 @@
 {
   "name": "pfn",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Provably Fair Numbers",
   "author": "livegames",
   "license": "Apache-2.0",
   "main": "./pfn.js",
   "scripts": {
-    "test": "node ./pfn-test.js"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -20,33 +20,34 @@
     "crng"
   ],
   "devDependencies": {
-		"standard": "16.0.4"
-	},
-	"standard": {
-		"globals": [
-			"__function",
-			"__line",
-			"__stack",
-			"constants",
-			"expect",
-			"describe",
-			"before",
-			"beforeEach",
-			"beforeAll",
-			"after",
-			"afterEach",
-			"afterAll",
-			"browser",
-			"test",
-			"by",
-			"it"
-		],
-		"rules": {
-			"camelcase": 0,
-			"object-curly-spacing": [
-				"error",
-				"never"
-			]
-		}
-	}
+    "jest": "^29.7.0",
+    "standard": "17.1.0"
+  },
+  "standard": {
+    "globals": [
+      "__function",
+      "__line",
+      "__stack",
+      "constants",
+      "expect",
+      "describe",
+      "before",
+      "beforeEach",
+      "beforeAll",
+      "after",
+      "afterEach",
+      "afterAll",
+      "browser",
+      "test",
+      "by",
+      "it"
+    ],
+    "rules": {
+      "camelcase": 0,
+      "object-curly-spacing": [
+        "error",
+        "never"
+      ]
+    }
+  }
 }

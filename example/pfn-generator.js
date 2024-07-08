@@ -15,7 +15,6 @@ let fileStreamRaw
 if (saveToFile) fileStream = fs.createWriteStream(`${Date.now()}.txt`, { flags: 'a' })
 if (saveRawToFile) fileStreamRaw = fs.createWriteStream(`${Date.now()}_raw.txt`, { flags: 'a' })
 
-
 //
 for (let index = 0; index < count; index++) {
   console.time('pfn-' + index)
