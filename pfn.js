@@ -120,12 +120,10 @@ class ProvablyFairNumbers {
 
   // Shuffle an array using the Fisher-Yates algorithm
   shuffle (arr) {
-    let t
-    let i
     let m = arr.length
     while (m) {
-      i = this.nextInt(0, m--)
-      t = arr[m]
+      const i = this.nextInt(0, --m)
+      const t = arr[m]
       arr[m] = arr[i]
       arr[i] = t
     }
