@@ -1,25 +1,53 @@
 {
   "name": "pfn",
-  "version": "1.1.1",
-  "description": "Provably Fair Numbers",
+  "version": "1.2.0",
+  "description": "Provably Fair Numbers - High-performance cryptographically secure random number generator for gaming applications",
   "author": "livegames",
   "license": "Apache-2.0",
-  "main": "./pfn.js",
+  "main": "./index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:performance": "jest __tests__/performance.test.js",
+    "lint": "standard",
+    "lint:fix": "standard --fix"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/__tests__/**/*.[jt]s?(x)",
+      "**/?(*.)+(spec|test).[tj]s?(x)"
+    ],
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "!**/node_modules/**",
+      "!**/coverage/**"
+    ]
   },
   "repository": {
     "type": "git",
-    "url": "github.com/livegamesio/pfn"
+    "url": "https://github.com/livegamesio/pfn"
   },
   "keywords": [
     "livegames",
     "pfn",
     "provably",
     "fair",
-    "crng"
+    "crng",
+    "cryptographic",
+    "random",
+    "gaming",
+    "hmac",
+    "sha256",
+    "fairness",
+    "security"
   ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "devDependencies": {
+    "decimal.js": "^10.4.3",
     "jest": "^29.7.0",
     "standard": "17.1.0"
   },
