@@ -214,6 +214,84 @@ class ProvablyFairNumbersV2 {
     const down2 = Math.floor(raw * 100) / 100
     return Math.min(Math.max(1, down2), max)
   }
+
+  /**
+   * Pump (Balloon) game
+   *
+   * Game mechanics:
+   * - Player pumps balloon up to `size` times (default 25)
+   * - Each pump increases the multiplier
+   * - Balloon bursts at a random point determined by difficulty
+   * - Player can cash out anytime before burst
+   *
+   * @param {Object} [opts]
+   * @param {'easy'|'medium'|'hard'|'expert'|number} [opts.difficulty='medium'] - Burst points count
+   * @param {number} [opts.size=25] - Maximum pumps
+   * @param {number} [opts.edge=0.02] - House edge (default 2%)
+   * @returns {{
+   *   popPoint: number,                              // Burst point (1-indexed)
+   *   payoutMultiplierAt: (round: number) => number, // Multiplier at given pump count
+   *   survivalAt: (round: number) => number,         // Survival probability
+   *   willPopNext: (round: number) => boolean,
+   *   canPress: (round: number) => boolean,
+   *   isPop: (round: number) => boolean
+   * }}
+   */
+  pump (opts = {}) {
+    if (opts.nonce !== undefined) this.nonce = opts.nonce
+    if (opts.index !== undefined) this.index = opts.index
+
+    const difficultyMap = opts.samples ?? { easy: 1, medium: 3, hard: 5, expert: 10 }
+    const size = opts.size ?? 25
+    const burstPoints = typeof opts.difficulty === 'number'
+      ? opts.difficulty
+      : (difficultyMap[opts.difficulty || 'medium'] || 3)
+    const edge = opts.edge ?? 0.02
+
+    if (!(Number.isInteger(size) && size >= 2)) throw new Error('pump: invalid size')
+    if (!(Number.isInteger(burstPoints) && burstPoints >= 1 && burstPoints <= size)) {
+      throw new Error('pump: invalid difficulty')
+    }
+
+    // Select burst positions using partial Fisher-Yates (unbiased)
+    const positions = Array.from({ length: size }, (_, i) => i)
+    let remaining = size
+    let firstBurst = size
+
+    for (let i = 0; i < burstPoints; i++) {
+      const j = this.nextInt(0, remaining - 1)
+      const selected = positions[j]
+      if (selected < firstBurst) firstBurst = selected
+      remaining--
+      positions[j] = positions[remaining]
+    }
+
+    const popPoint = firstBurst + 1 // convert to 1-indexed
+
+    // Survival probability at pump k: S(k) = Π_{t=0..k-1} (n - b - t) / (n - t)
+    const survivalAt = k => {
+      if (k <= 0) return 1
+      if (k > size - burstPoints) return 0
+      let s = 1
+      for (let t = 0; t < k; t++) s *= (size - burstPoints - t) / (size - t)
+      return s
+    }
+
+    const isPop = round => Number.isInteger(round) && round === popPoint
+    const canPress = round => Number.isInteger(round) && round >= 0 && round < popPoint
+    const willPopNext = round => Number.isInteger(round) && (round + 1 === popPoint)
+
+    // Payout multiplier: (1 - edge) / S(k)
+    const payoutMultiplierAt = round => {
+      if (!Number.isInteger(round) || round < 0 || round >= popPoint) return 0
+      const s = survivalAt(round)
+      return s > 0 ? Math.floor(((1 - edge) / s) * 1e4) / 1e4 : 0
+    }
+
+    return { popPoint, payoutMultiplierAt, survivalAt, willPopNext, canPress, isPop }
+  }
+
+  //
 }
 
 module.exports = { ProvablyFairNumbersV2 }

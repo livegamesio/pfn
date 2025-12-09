@@ -1,6 +1,6 @@
 {
   "name": "pfn",
-  "version": "1.2.0",
+  "version": "2.1.0",
   "description": "Provably Fair Numbers - High-performance cryptographically secure random number generator for gaming applications",
   "author": "livegames",
   "license": "Apache-2.0",
@@ -47,9 +47,9 @@
     "node": ">=14.0.0"
   },
   "devDependencies": {
-    "decimal.js": "^10.4.3",
-    "jest": "^29.7.0",
-    "standard": "17.1.0"
+    "decimal.js": "^10.6.0",
+    "jest": "^30.2.0",
+    "standard": "17.1.2"
   },
   "standard": {
     "globals": [
