@@ -1,6 +1,6 @@
 {
   "name": "pfn",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Provably Fair Numbers - High-performance cryptographically secure random number generator for gaming applications",
   "author": "livegames",
   "license": "Apache-2.0",

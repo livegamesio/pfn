@@ -285,10 +285,11 @@ class ProvablyFairNumbersV2 {
     const payoutMultiplierAt = round => {
       if (!Number.isInteger(round) || round < 0 || round >= popPoint) return 0
       const s = survivalAt(round)
-      return s > 0 ? Math.floor(((1 - edge) / s) * 1e4) / 1e4 : 0
+
+      return s > 0 ? Number(BigInt(Math.round((1 - edge) * 10000)) * 100n / BigInt(Math.round(s * 10000))) / 100 : 0
     }
 
-    return { popPoint, payoutMultiplierAt, survivalAt, willPopNext, canPress, isPop }
+    return { size, burstPoints, popPoint, payoutMultiplierAt, survivalAt, willPopNext, canPress, isPop }
   }
 
   //
