@@ -57,6 +57,22 @@ class ProvablyFairNumbersV2 {
     return crypto.createHmac('sha256', this.serverSeed).update(s).digest()
   }
 
+  // Get first N bytes from current HMAC
+  getBytes (count = 4) {
+    const buf = this._currentHmacBuf()
+    return buf.subarray(0, Math.min(count, buf.length))
+  }
+
+  // Convert bytes to float value
+  bytesToFloat (bytes) {
+    if (!bytes || bytes.length === 0) return 0
+    let result = 0
+    for (let i = 0; i < bytes.length; i++) {
+      result += bytes[i] / Math.pow(256, i + 1)
+    }
+    return result
+  }
+
   // 256-bit BigInt (does not advance state)
   randomLong () {
     const buf = this._currentHmacBuf()
@@ -290,6 +306,21 @@ class ProvablyFairNumbersV2 {
     }
 
     return { size, burstPoints, popPoint, payoutMultiplierAt, survivalAt, willPopNext, canPress, isPop }
+  }
+
+  /**
+   * High multiplier for games like Limbo:
+   *   Uses first 4 bytes of HMAC as entropy source
+   *   Formula: (2^24 / (floatValue * 2^24 + 1)) * (1 - houseEdge)
+   *
+   * @param {number} houseEdge - House edge (1 = %1, 0.01 = %1)
+   * @param {number} maxMultiplier - Maximum multiplier cap (default: 1e6)
+   * @returns {number} Multiplier value
+   */
+  highMultiplier (houseEdge = 0.01, maxMultiplier = 1_000_000, precision = 2) {
+    const value = Math.floor(this.bytesToFloat(this.getBytes(4)) * 16777216)
+    const eps = houseEdge >= 1 ? houseEdge / 100 : houseEdge
+    return parseFloat((Math.min(Math.max(1, 16777216 / (value + 1) * (1 - eps)), maxMultiplier)).toFixed(precision))
   }
 
   //
